@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../config/database');
 const Joi = require('joi');
 const router = express.Router();
+const firebaseAuth = require('../middleware/firebaseAuth');
 
 // Validation schemas
 const createTenantSchema = Joi.object({
@@ -11,6 +12,9 @@ const createTenantSchema = Joi.object({
 const updateTenantSchema = Joi.object({
   name: Joi.string().min(2).max(255)
 });
+
+// Apply Firebase auth to all routes below
+router.use(firebaseAuth);
 
 // GET /api/tenants - Get all tenants
 router.get('/', async (req, res) => {

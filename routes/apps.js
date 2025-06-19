@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../config/database');
 const Joi = require('joi');
 const router = express.Router();
+const firebaseAuth = require('../middleware/firebaseAuth');
 
 // Validation schemas
 const createAppSchema = Joi.object({
@@ -18,6 +19,9 @@ const updateAppSchema = Joi.object({
   app_version: Joi.string(),
   app_details: Joi.object()
 });
+
+// Apply Firebase auth to all routes below
+router.use(firebaseAuth);
 
 // GET /api/apps - Get all apps
 router.get('/', async (req, res) => {

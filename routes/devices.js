@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../config/database');
 const Joi = require('joi');
 const router = express.Router();
+const firebaseAuth = require('../middleware/firebaseAuth');
 
 // Validation schemas
 const createDeviceSchema = Joi.object({
@@ -25,6 +26,9 @@ const updateDeviceSchema = Joi.object({
   os_version: Joi.string(),
   status: Joi.string().valid('active', 'inactive', 'blocked')
 });
+
+// Apply Firebase auth to all routes below
+router.use(firebaseAuth);
 
 // GET /api/devices - Get all devices
 router.get('/', async (req, res) => {
